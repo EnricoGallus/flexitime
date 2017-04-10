@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import { navPush } from '../actions/NavActions'
-import Button from '../components/Button'
+import Timer from '../components/Timer'
 
 
 const Home = (props) => {
 	return (
 		<View style={styles.container}>
-			<Button title="Home Screen 2" navigate={() => props.onClick({key: 'homeTwo', title: 'Home Two'})} />
+			<Timer />
 		</View>
 	)
 }
