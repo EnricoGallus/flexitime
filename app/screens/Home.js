@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import { navPush } from '../actions/NavActions'
-import Timer from '../components/Timer'
+import DashBoard from '../components/DashBoard'
 
 
 const Home = (props) => {
 	return (
 		<View style={styles.container}>
-			<Timer />
+			<DashBoard />
 		</View>
 	)
 }
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		flex: 1, 
 		alignItems: 'center', 
 		justifyContent: 'center', 
-		backgroundColor: '#f2ae72'
+		backgroundColor: 'grey'
 	}
 })
 

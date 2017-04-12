@@ -8,17 +8,36 @@ import {
   Alert
 } from 'react-native';
 import SettingsList from 'react-native-settings-list';
+import store from 'react-native-simple-store';
 
 
 class Setting extends Component {
    constructor(){
      super();
-     this.state = {
-            isGeofencing: false,
-            weeklyHours: 40,
-            daysPerWeek: 5,
-            hoursPerDay: 8
-         };
+     this.state = {isGeofencing: false, weeklyHours: 40, daysPerWeek: 5, hoursPerDay: 8};
+   }
+
+   componentDidMount() {
+        store
+        .get('settings')
+        .then(settings => { 
+            this.setState({isGeofencing: settings.isGeofencing ? settings.isGeofencing : false});
+            this.setState({weeklyHours: settings.weeklyHours ? settings.weeklyHours : 40});
+            this.setState({daysPerWeek: settings.daysPerWeek ? settings.daysPerWeek : 5});
+            this.setState({hoursPerDay: settings.hoursPerDay ? settings.hoursPerDay : 8});
+        })
+        .catch(error => {console.error(error.message);});
+   }
+
+   componentDidUpdate() {
+       store
+        .save('settings', {
+           isGeofencing: this.state.isGeofencing,
+           weeklyHours: this.state.weeklyHours,
+           daysPerWeek: this.state.daysPerWeek,
+           hoursPerDay: this.state.hoursPerDay
+        })
+       .catch(error => {console.error(error.message);});;
    }
 
    render() {
@@ -29,30 +48,30 @@ class Setting extends Component {
                         <SettingsList.Header headerText='Einstellung' headerStyle={styles.header}/>
                         <SettingsList.Item
                             id="weeklyHour"
+                            isEditable={true}
                             hasNavArrow={false}
                             hasSwitch={false}
                             title='Wochenarbeitszeit'
-                            isEditable={true}
                             value={this.state.weeklyHours.toString()}
                             onTextChange={(text) => this.setState({weeklyHours: text})} 
                             />
                         <SettingsList.Item
                             id="daysPerWeek"
-                            hasNavArrow={false}
                             isEditable={true}
                             hasSwitch={false}
+                            hasNavArrow={false}
                             title='Tage/Woche'
                             value={this.state.daysPerWeek.toString()}
                             onTextChange={(text) => this.setState({daysPerWeek: text})} 
                             />
                         <SettingsList.Item
                             id="hoursPerDay"
-                            hasNavArrow={false}
-                            hasSwitch={false}
                             title='Stunde/Tag'
                             isEditable={true}
+                            hasSwitch={false}
+                            hasNavArrow={false}
                             value={this.state.hoursPerDay.toString()}
-                            onPress={(text) => this.setState({hoursPerDay: text})} />
+                            onTextChange={(text) => this.setState({hoursPerDay: text})} />
                         <SettingsList.Header headerText='Enhanced' headerStyle={styles.header}/>
                         <SettingsList.Item
                             hasNavArrow={false}
