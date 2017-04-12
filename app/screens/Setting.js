@@ -1,5 +1,4 @@
-'use strict';
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -7,8 +6,8 @@ import {
   Image,
   Alert
 } from 'react-native';
-import SettingsList from 'react-native-settings-list';
-import store from 'react-native-simple-store';
+import SettingsList from 'react-native-settings-list'
+import store from 'react-native-simple-store'
 
 
 class Setting extends Component {

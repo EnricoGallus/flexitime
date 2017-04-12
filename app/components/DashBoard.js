@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
-import { Stopwatch } from 'react-native-stopwatch-timer'
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import Stopwatch from './externals/Stopwatch';
 
 class DashBoard extends Component {
     constructor(props) {
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DashBoard
+export default DashBoard;
