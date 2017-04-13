@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
-  Alert
 } from 'react-native';
 import SettingsList from 'react-native-settings-list'
 import store from 'react-native-simple-store'

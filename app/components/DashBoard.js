@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
-import Stopwatch from './externals/Stopwatch';
+import Stopwatch from './stopwatchLaps';
 
 class DashBoard extends Component {
     constructor(props) {
@@ -44,39 +44,6 @@ class DashBoard extends Component {
                     reset={this.state.timerReset}
                     options={timer}
                     getTime={this.getTime}/>
-                <Stopwatch laps start={this.state.pauseStart}
-                    reset={this.state.pauseReset}
-                    options={pause}
-                    getTime={this.getTime}/>
-                <Text style={styles.placeholder} />
-                <Text style={styles.weekTime}>geschaffte Zeit{this.state.test}</Text>
-                <Text style={styles.saldoTime}>saldo</Text>
-                <View style={styles.buttons}>
-                    {!this.state.timerStart && !this.state.pauseStart ?
-                        <TouchableHighlight style={styles.control} onPress={() => this.start()}>
-                            <Text style={styles.center}>Start</Text>
-                        </TouchableHighlight >
-                    : null
-                    }
-                    {this.state.pauseStart ?
-                        <TouchableHighlight style={styles.control} onPress={() => this.continue()}>
-                            <Text style={styles.center}>Continue</Text>
-                        </TouchableHighlight >
-                    : null
-                    }
-                    {this.state.timerStart ?
-                        <TouchableHighlight style={styles.control} onPress={() => this.pause()}>
-                            <Text style={styles.center}>Pause</Text>
-                        </TouchableHighlight>
-                    : null
-                    }
-                    {this.state.timerStart || this.state.pauseStart ?
-                        <TouchableHighlight style={styles.control} onPress={() => this.stop()}>
-                            <Text style={styles.center}>Stop</Text>
-                        </TouchableHighlight>
-                    : null
-                    }
-                </View>
             </View>
         )
     }
