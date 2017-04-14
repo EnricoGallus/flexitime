@@ -48,13 +48,17 @@ class StopWatch extends Component {
     }
 
     render() {
-        const { progressTimer, progressPause, startedAt, laps, stoppedAt, baseTime } = this.props;
-        const elapsed = getElapsedTime(baseTime, startedAt, stoppedAt);
-        const elapsedPause = 0;
+        const {
+            progressTimer, progressPause,
+            startedTimerAt, stoppedTimerAt, baseTime,
+            startedPauseAt, stoppedPauseAt, basePause
+            } = this.props;
+        const elapsedTime = getElapsedTime(baseTime, startedTimerAt, stoppedTimerAt);
+        const elapsedPause = getElapsedTime(basePause, startedPauseAt, stoppedPauseAt);
         return (
             <View style={styles.stopWatch}>
                 <View style={styles.stopWatchTimer}>
-                    <Text style={styles.stopWatchTimerText}>{secondsToTime(elapsed)}</Text>
+                    <Text style={styles.stopWatchTimerText}>{secondsToTime(elapsedTime)}</Text>
                 </View>
                 <View style={styles.stopWatchPause}>
                     <Text style={styles.stopWatchPauseText}>{secondsToTime(elapsedPause)}</Text>
@@ -63,7 +67,9 @@ class StopWatch extends Component {
                     { !progressTimer && !progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#0583F2'}]}
-                            onPress={() => this.props.startTimer(elapsed)}>
+                            onPress={() => this.props.startTimer(elapsedTime)}
+                            title="Start"
+                            accessibilityLabel="Start">
                             <Text style={styles.stopWatchButtonText}>Start</Text>
                         </TouchableOpacity>
                         : null
@@ -71,26 +77,30 @@ class StopWatch extends Component {
                     { progressTimer && !progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#3C74A6'}]}
-                            onPress={() => this.props.lapTimer()}
-                            title="Lap"
-                            accessibilityLabel="Lap">
-                            <Text style={styles.stopWatchButtonText}>Lap</Text>
+                            onPress={() => this.props.startPause(elapsedPause)}
+                            title="Pause"
+                            accessibilityLabel="Pause">
+                            <Text style={styles.stopWatchButtonText}>Pause</Text>
                         </TouchableOpacity>
                         : null
                     }
                     { !progressTimer && progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#1E3E59'}]}
-                            onPress={() => this.props.stopTimer()}>
-                            <Text style={styles.stopWatchButtonText}>Stop</Text>
+                            onPress={() => this.props.continueTimer(elapsedTime)}
+                            title="Continue"
+                            accessibilityLabel="Continue">
+                            <Text style={styles.stopWatchButtonText}>Continue</Text>
                         </TouchableOpacity>
                         : null
                     }
                     { progressTimer || progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#AD0500'}]}
-                            onPress={() => this.props.resetTimer()}>
-                            <Text style={styles.stopWatchButtonText}>Reset</Text>
+                            onPress={() => this.props.stopTimer()}
+                            title="Stop"
+                            accessibilityLabel="Stop">
+                            <Text style={styles.stopWatchButtonText}>Stop</Text>
                         </TouchableOpacity>
                         : null
                     }
@@ -145,10 +155,12 @@ const mapStateProps = (state) => {
     return {
         progressTimer: state.stopwatchReducer.progressTimer,
         progressPause: state.stopwatchReducer.progressPause,
-        startedAt: state.stopwatchReducer.startedAt,
-        laps: state.stopwatchReducer.laps,
-        stoppedAt: state.stopwatchReducer.stoppedAt,
-        baseTime: state.stopwatchReducer.baseTime
+        startedTimerAt: state.stopwatchReducer.startedTimerAt,
+        stoppedTimerAt: state.stopwatchReducer.stoppedTimerAt,
+        baseTime: state.stopwatchReducer.baseTime,
+        startedPauseAt: state.stopwatchReducer.startedPauseAt,
+        stoppedPauseAt: state.stopwatchReducer.stoppedPauseAt,
+        basePause: state.stopwatchReducer.basePause,
     }
 }
 

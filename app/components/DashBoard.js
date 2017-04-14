@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         flexDirection: 'column',
         justifyContent: 'center',
-    }
+    },
 })
 
 export default DashBoard;

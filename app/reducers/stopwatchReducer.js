@@ -1,18 +1,20 @@
 import {
     START_TIMER,
-    LAP_TIMER,
-    STOP_TIMER,
-    RESET_TIMER
+    START_PAUSE,
+    CONTINUE_TIMER,
+    STOP_TIMER
 } from '../actions/stopwatchActions';
 
 
 const INITIAL_STATE = {
     progressTimer: false,
     progressPause: false,
-    startedAt: undefined,
-    laps: [],
-    stoppedAt: undefined,
-    baseTime: undefined
+    baseTime: undefined,
+    startedTimerAt: undefined,
+    stoppedTimerAt: undefined,
+    basePause: undefined,
+    startedPauseAt: undefined,
+    stoppedPauseAt: undefined,
 };
 
 
@@ -23,32 +25,40 @@ export default function(state = INITIAL_STATE, action) {
                 ...state,
                 progressTimer: true,
                 baseTime: action.baseTime,
-                startedAt: action.now,
-                stoppedAt: undefined
+                startedTimerAt: action.now,
+                stoppedTimerAt: undefined
             };
-        case "LAP_TIMER":
+        case "START_PAUSE":
             return {
                 ...state,
                 progressPause: true,
                 progressTimer: false,
-                laps: [...state.laps, (action.now - state.startedAt)  ]
+                basePause: action.basePause,
+                startedPauseAt: action.now,
+                stoppedTimerAt: action.now,
+                stoppedPauseAt: undefined
+            };
+        case "CONTINUE_TIMER":
+            return {
+                ...state,
+                progressPause: false,
+                progressTimer: true,
+                baseTime: action.baseTime,
+                startedTimerAt: action.now,
+                stoppedTimerAt: undefined,
+                stoppedPauseAt: action.now
             };
         case "STOP_TIMER":
             return {
                 ...state,
                 progressPause: false,
-                progressTimer: true,
-                stoppedAt: action.now
-            };
-        case "RESET_TIMER":
-            return {
-                ...state,
-                progressPause: false,
                 progressTimer: false,
                 baseTime: 0,
-                laps: [],
-                startedAt: state.startedAt ? action.now : undefined,
-                stoppedAt: state.stoppedAt ? action.now : undefined
+                startedTimerAt: undefined,
+                stoppedTimerAt: undefined,
+                basePause: 0,
+                startedPauseAt: undefined,
+                stoppedPauseAt: undefined,
             };
         default:
             return state;

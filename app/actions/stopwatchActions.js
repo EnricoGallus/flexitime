@@ -6,9 +6,18 @@ export function startTimer(baseTime = 0) {
     };
 }
 
-export function lapTimer() {
+export function startPause(basePause = 0) {
     return {
-        type: "LAP_TIMER",
+        type: "START_PAUSE",
+        basePause: basePause,
+        now: new Date().getTime()
+    };
+}
+
+export function continueTimer(baseTime) {
+    return {
+        type: "CONTINUE_TIMER",
+        baseTime: baseTime,
         now: new Date().getTime()
     };
 }
@@ -16,13 +25,6 @@ export function lapTimer() {
 export function stopTimer() {
     return {
         type: "STOP_TIMER",
-        now: new Date().getTime()
-    };
-}
-
-export function resetTimer() {
-    return {
-        type: "RESET_TIMER",
         now: new Date().getTime()
     }
 }
