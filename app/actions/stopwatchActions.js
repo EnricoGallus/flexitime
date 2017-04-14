@@ -22,9 +22,11 @@ export function continueTimer(baseTime) {
     };
 }
 
-export function stopTimer() {
+export function stopTimer(elapsedTime, elapsedPause) {
     return {
         type: "STOP_TIMER",
+        elapsedTime: elapsedTime,
+        elapsedPause: elapsedPause,
         now: new Date().getTime()
     }
 }

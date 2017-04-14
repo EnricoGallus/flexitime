@@ -6,10 +6,9 @@ import {
     View,
     StyleSheet
 } from 'react-native'
-import { saveTiming } from '../helper/storageHelper'
 import Dimensions from 'Dimensions';
 import * as stopWatchActions from '../actions/stopwatchActions'
-import Saldo from '../components/saldo'
+import ElapsedTime from './elapsedTime'
 import { getElapsedTime, secondsToTime } from '../helper/timeHelper'
 
 const WIDTH = Dimensions.get('window').width;
@@ -34,18 +33,20 @@ class StopWatch extends Component {
         const elapsedTime = getElapsedTime(baseTime, startedTimerAt, stoppedTimerAt);
         const elapsedPause = getElapsedTime(basePause, startedPauseAt, stoppedPauseAt);
         return (
-            <View>
-                <View style={styles.stopWatchTimer}>
-                    <Text style={styles.stopWatchTimerText}>{secondsToTime(elapsedTime)}</Text>
+            <View style={{flex: 1}}>
+                <View style={styles.timers}>
+                    <View style={styles.stopWatchTimer}>
+                        <Text style={styles.stopWatchTimerText}>{secondsToTime(elapsedTime)}</Text>
+                    </View>
+                    <View style={styles.stopWatchPause}>
+                        <Text style={styles.stopWatchPauseText}>{secondsToTime(elapsedPause)}</Text>
+                    </View>
                 </View>
-                <View style={styles.stopWatchPause}>
-                    <Text style={styles.stopWatchPauseText}>{secondsToTime(elapsedPause)}</Text>
-                </View>
-                <Saldo />
+                <ElapsedTime key={progressTimer} />
                 <View style={styles.stopWatchButtons}>
                     { !progressTimer && !progressPause ?
                         <TouchableOpacity
-                            style={[styles.stopWatchButton, {backgroundColor: '#0583F2'}]}
+                            style={[styles.stopWatchButton, {backgroundColor: '#0583F2'}, {width: WIDTH}]}
                             onPress={() => this.props.startTimer(elapsedTime)}
                             title="Start"
                             accessibilityLabel="Start">
@@ -76,10 +77,7 @@ class StopWatch extends Component {
                     { progressTimer || progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#AD0500'}]}
-                            onPress={() => {
-                                saveTiming({ elapsedTime, elapsedPause, savedAt: new Date().getDate()});
-                                this.props.stopTimer(); }
-                            }
+                            onPress={() => {this.props.stopTimer(elapsedTime, elapsedPause); }}
                             title="Stop"
                             accessibilityLabel="Stop">
                             <Text style={styles.stopWatchButtonText}>Stop</Text>
@@ -93,6 +91,10 @@ class StopWatch extends Component {
 }
 
 const styles = StyleSheet.create({
+    timers: {
+        marginTop: 50,
+        marginBottom: 30,
+    },
     stopWatchTimer: {
         justifyContent: 'center',
         alignSelf: 'center'
@@ -115,9 +117,8 @@ const styles = StyleSheet.create({
         height: 46,
     },
     stopWatchButton: {
-        flex: 1,
         height: 46,
-        width: WIDTH / 4,
+        width: WIDTH / 2,
         alignSelf: 'center',
         justifyContent: 'center'
     },
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
 
     },
-})
+});
 
 const mapStateToProps = (state) => {
     return {
@@ -141,6 +142,6 @@ const mapStateToProps = (state) => {
         stoppedPauseAt: state.stopwatchReducer.stoppedPauseAt,
         basePause: state.stopwatchReducer.basePause,
     }
-}
+};
 
 export default connect(mapStateToProps, {...stopWatchActions})(StopWatch);

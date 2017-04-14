@@ -15,6 +15,7 @@ const INITIAL_STATE = {
     basePause: undefined,
     startedPauseAt: undefined,
     stoppedPauseAt: undefined,
+    timings: [],
 };
 
 
@@ -49,9 +50,15 @@ export default function(state = INITIAL_STATE, action) {
                 stoppedPauseAt: action.now
             };
         case "STOP_TIMER":
+            let timings = state.timings;
+            timings.push({
+                elapsedTime: action.elapsedTime,
+                elapsedPause: action.elapsedPause,
+                savedAt: action.now
+            });
             return {
                 ...state,
-
+                timings: timings,
                 progressPause: false,
                 progressTimer: false,
                 baseTime: 0,
