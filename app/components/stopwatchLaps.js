@@ -55,7 +55,7 @@ class StopWatch extends Component {
         const elapsedTime = getElapsedTime(baseTime, startedTimerAt, stoppedTimerAt);
         const elapsedPause = getElapsedTime(basePause, startedPauseAt, stoppedPauseAt);
         return (
-            <View style={styles.stopWatch}>
+            <View>
                 <View style={styles.stopWatchTimer}>
                     <Text style={styles.stopWatchTimerText}>{secondsToTime(elapsedTime)}</Text>
                 </View>
@@ -110,9 +110,6 @@ class StopWatch extends Component {
 }
 
 const styles = StyleSheet.create({
-    stopWatch: {
-        flex: 1
-    },
     stopWatchTimer: {
         justifyContent: 'center',
         alignSelf: 'center'

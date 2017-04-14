@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import Navigation from '../components/Navigation'
-import { navPush, navPop, selectTab } from '../actions/NavActions'
+import Navigation from '../components/navigation'
+import { navPush, navPop, selectTab } from '../actions/navActions'
 
 export default connect(
   state => ({

@@ -51,6 +51,7 @@ export default function(state = INITIAL_STATE, action) {
         case "STOP_TIMER":
             return {
                 ...state,
+
                 progressPause: false,
                 progressTimer: false,
                 baseTime: 0,

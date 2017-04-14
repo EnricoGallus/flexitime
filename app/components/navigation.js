@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, NavigationExperimental } from 'react-native';
 
-import { navPush, navPop, selectTab } from '../actions/NavActions'
-import TabBar from './TabBar'
-import Button from './Button'
+import TabBar from './tabBar'
 
-//Screens
-import HomeScreen from '../screens/Home'
-import StatisticScreen from '../screens/Statistic'
-import SettingScreen from '../screens/Setting'
+import HomeScreen from '../screens/home'
+import StatisticScreen from '../screens/statistic'
+import SettingScreen from '../screens/setting'
 
 const {
   CardStack: NavigationCardStack,

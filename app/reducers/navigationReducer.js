@@ -1,5 +1,5 @@
 import * as NavigationStateUtils from 'NavigationStateUtils'
-import { NAV_PUSH, NAV_POP, SELECT_TAB } from '../actions/NavActions'
+import { NAV_PUSH, NAV_POP, SELECT_TAB } from '../actions/navActions'
 
 const initialState = {
     tabs: {
