@@ -6,35 +6,14 @@ import {
     View,
     StyleSheet
 } from 'react-native'
+import { saveTiming } from '../helper/storageHelper'
 import Dimensions from 'Dimensions';
 import * as stopWatchActions from '../actions/stopwatchActions'
+import Saldo from '../components/saldo'
+import { getElapsedTime, secondsToTime } from '../helper/timeHelper'
 
 const WIDTH = Dimensions.get('window').width;
 
-
-const getElapsedTime = (baseTime, startedAt, stoppedAt = new Date().getTime()) => {
-    if (!startedAt) {
-        return 0;
-    } else {
-        return stoppedAt - startedAt + baseTime;
-    }
-};
-
-const secondsToTime = (s) => {
-    function pad(n, z) {
-        z = z || 2;
-        return ('00' + n).slice(-z);
-    }
-
-    let ms = s % 1000;
-    s = (s - ms) / 1000;
-    let secs = s % 60;
-    s = (s - secs) / 60;
-    let mins = s % 60;
-    let hrs = (s - mins) / 60;
-
-    return `${pad(hrs)}:${pad(mins)}:${pad(secs)}.${pad(ms, 3)}`;
-};
 
 class StopWatch extends Component {
 
@@ -62,6 +41,7 @@ class StopWatch extends Component {
                 <View style={styles.stopWatchPause}>
                     <Text style={styles.stopWatchPauseText}>{secondsToTime(elapsedPause)}</Text>
                 </View>
+                <Saldo />
                 <View style={styles.stopWatchButtons}>
                     { !progressTimer && !progressPause ?
                         <TouchableOpacity
@@ -96,7 +76,10 @@ class StopWatch extends Component {
                     { progressTimer || progressPause ?
                         <TouchableOpacity
                             style={[styles.stopWatchButton, {backgroundColor: '#AD0500'}]}
-                            onPress={() => this.props.stopTimer()}
+                            onPress={() => {
+                                saveTiming({ elapsedTime, elapsedPause, savedAt: new Date().getDate()});
+                                this.props.stopTimer(); }
+                            }
                             title="Stop"
                             accessibilityLabel="Stop">
                             <Text style={styles.stopWatchButtonText}>Stop</Text>
