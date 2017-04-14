@@ -7,7 +7,8 @@ import {
 
 
 const INITIAL_STATE = {
-    progress: false,
+    progressTimer: false,
+    progressPause: false,
     startedAt: undefined,
     laps: [],
     stoppedAt: undefined,
@@ -20,7 +21,7 @@ export default function(state = INITIAL_STATE, action) {
         case "START_TIMER":
             return {
                 ...state,
-                progress: true,
+                progressTimer: true,
                 baseTime: action.baseTime,
                 startedAt: action.now,
                 stoppedAt: undefined
@@ -28,22 +29,27 @@ export default function(state = INITIAL_STATE, action) {
         case "LAP_TIMER":
             return {
                 ...state,
+                progressPause: true,
+                progressTimer: false,
                 laps: [...state.laps, (action.now - state.startedAt)  ]
+            };
+        case "STOP_TIMER":
+            return {
+                ...state,
+                progressPause: false,
+                progressTimer: true,
+                stoppedAt: action.now
             };
         case "RESET_TIMER":
             return {
                 ...state,
+                progressPause: false,
+                progressTimer: false,
                 baseTime: 0,
                 laps: [],
                 startedAt: state.startedAt ? action.now : undefined,
                 stoppedAt: state.stoppedAt ? action.now : undefined
             };
-        case "STOP_TIMER":
-            return {
-                ...state,
-                progress: false,
-                stoppedAt: action.now
-            }
         default:
             return state;
     }
