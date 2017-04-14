@@ -4,36 +4,12 @@ import {
   View,
 } from 'react-native';
 import SettingsList from 'react-native-settings-list'
-import store from 'react-native-simple-store'
 
 
 class Setting extends Component {
    constructor(){
      super();
      this.state = {isGeofencing: false, weeklyHours: 40, daysPerWeek: 5, hoursPerDay: 8};
-   }
-
-   componentDidMount() {
-        store
-        .get('settings')
-        .then(settings => { 
-            this.setState({isGeofencing: settings.isGeofencing ? settings.isGeofencing : false});
-            this.setState({weeklyHours: settings.weeklyHours ? settings.weeklyHours : 40});
-            this.setState({daysPerWeek: settings.daysPerWeek ? settings.daysPerWeek : 5});
-            this.setState({hoursPerDay: settings.hoursPerDay ? settings.hoursPerDay : 8});
-        })
-        .catch(error => {console.error(error.message);});
-   }
-
-   componentDidUpdate() {
-       store
-        .save('settings', {
-           isGeofencing: this.state.isGeofencing,
-           weeklyHours: this.state.weeklyHours,
-           daysPerWeek: this.state.daysPerWeek,
-           hoursPerDay: this.state.hoursPerDay
-        })
-       .catch(error => {console.error(error.message);});;
    }
 
    render() {

@@ -10,11 +10,11 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.1",
     "react-native-settings-list": "^1.4.0",
-    "react-native-simple-store": "^1.1.0",
     "react-native-vector-icons": "^4.0.1",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
+    "redux-persist": "^4.6.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0"
   },
@@ -22,6 +22,7 @@
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
+    "react-native": "^0.43.1",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {
