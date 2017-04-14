@@ -39,7 +39,6 @@ const secondsToTime = (s) => {
 class StopWatch extends Component {
 
     componentDidMount() {
-        console.log(this.props.updateInterval);
         this.interval = setInterval(this.forceUpdate.bind(this), this.props.updateInterval);
     }
 
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
     },
 })
 
-const mapStateProps = (state) => {
+const mapStateToProps = (state) => {
     return {
         progressTimer: state.stopwatchReducer.progressTimer,
         progressPause: state.stopwatchReducer.progressPause,
@@ -164,4 +163,4 @@ const mapStateProps = (state) => {
     }
 }
 
-export default connect(mapStateProps, {...stopWatchActions})(StopWatch);
+export default connect(mapStateToProps, {...stopWatchActions})(StopWatch);

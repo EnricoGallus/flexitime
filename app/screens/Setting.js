@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   StyleSheet,
   View,
 } from 'react-native';
 import SettingsList from 'react-native-settings-list'
+import * as settingActions from '../actions/settingActions'
 
 
 class Setting extends Component {
-   constructor(){
-     super();
-     this.state = {isGeofencing: false, weeklyHours: 40, daysPerWeek: 5, hoursPerDay: 8};
-   }
-
    render() {
+       const { weeklyHours, daysPerWeek, hoursPerDay, isGeofencing } = this.props;
        return (
             <View style={styles.page}>
                 <View style={styles.container}>
@@ -24,8 +22,8 @@ class Setting extends Component {
                             hasNavArrow={false}
                             hasSwitch={false}
                             title='Wochenarbeitszeit'
-                            value={this.state.weeklyHours.toString()}
-                            onTextChange={(text) => this.setState({weeklyHours: text})} 
+                            value={weeklyHours.toString()}
+                            onTextChange={(text) => this.props.weeklyHourChange(text)}
                             />
                         <SettingsList.Item
                             id="daysPerWeek"
@@ -33,8 +31,8 @@ class Setting extends Component {
                             hasSwitch={false}
                             hasNavArrow={false}
                             title='Tage/Woche'
-                            value={this.state.daysPerWeek.toString()}
-                            onTextChange={(text) => this.setState({daysPerWeek: text})} 
+                            value={daysPerWeek.toString()}
+                            onTextChange={(text) => this.props.daysPerWeekChange(text)}
                             />
                         <SettingsList.Item
                             id="hoursPerDay"
@@ -42,19 +40,17 @@ class Setting extends Component {
                             isEditable={true}
                             hasSwitch={false}
                             hasNavArrow={false}
-                            value={this.state.hoursPerDay.toString()}
-                            onTextChange={(text) => this.setState({hoursPerDay: text})} />
+                            value={hoursPerDay.toString()}
+                            onTextChange={(text) => this.props.hoursPerDayChange(text)} />
                         <SettingsList.Header headerText='Enhanced' headerStyle={styles.header}/>
                         <SettingsList.Item
                             hasNavArrow={false}
-                            switchState={this.state.isGeofencing}
-                            switchOnValueChange={(value) => this.setState({isGeofencing: value})}
+                            switchState={isGeofencing}
+                            switchOnValueChange={(value) => this.props.isGeofencingChange(value)}
                             hasSwitch={true}
                             title='Geofencing' />
                         <SettingsList.Item
                             hasNavArrow={true}
-                            switchState={this.state.switchValue}
-                            switchOnValueChange={this.onValueChange}
                             hasSwitch={false}
                             title='????Übernahme/Stunden????' />
                     </SettingsList>
@@ -79,4 +75,13 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Setting;
+const mapStateToProps = (state) => {
+    return {
+        weeklyHours: state.settingReducer.weeklyHours,
+        daysPerWeek: state.settingReducer.daysPerWeek,
+        hoursPerDay: state.settingReducer.hoursPerDay,
+        isGeofencing: state.settingReducer.isGeofencing,
+    }
+}
+
+export default connect(mapStateToProps, {...settingActions})(Setting);
