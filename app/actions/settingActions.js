@@ -23,5 +23,5 @@ export function isGeofencingChange(isGeofencing) {
     return {
         type: "ISGEOFENCING_CHANGE",
         value: isGeofencing
-    }
+    };
 }

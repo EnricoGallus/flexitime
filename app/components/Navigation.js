@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { StyleSheet, View, NavigationExperimental } from 'react-native';
 
