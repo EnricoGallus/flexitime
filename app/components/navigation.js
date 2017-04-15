@@ -3,9 +3,9 @@ import { StyleSheet, View, NavigationExperimental } from 'react-native';
 
 import TabBar from './tabBar'
 
-import HomeScreen from '../screens/home'
-import StatisticScreen from '../screens/statistic'
-import SettingScreen from '../screens/setting'
+import HomeScreen from './homeScreen'
+import StatisticScreen from './statisticScreen'
+import SettingScreen from './settingScreen'
 
 const {
   CardStack: NavigationCardStack,

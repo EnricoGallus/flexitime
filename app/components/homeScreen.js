@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import Stopwatch from '../components/stopwatchLaps'
+import Stopwatch from './stopwatchLaps'
 
 class Home extends Component {
     render() {

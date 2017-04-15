@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, ScrollView, Text, TouchableHighlight } from 'react-native'
+import { navPush } from '../actions/navActions'
 
 class Statistic extends Component {
+
+    componentWillMount() {
+        this.monthGroup = this.groupByMonths();
+    }
 
     groupByMonths() {
         const map = new Map();
@@ -28,13 +33,13 @@ class Statistic extends Component {
     }
 
     render() {
-        const monthGroup = this.groupByMonths();
         return (
             <View style={styles.container}>
                 <ScrollView>
-                {   monthGroup.map((child) => {
+                {   this.monthGroup.map((child) => {
                         return (
                                 <TouchableHighlight
+                                    onPress={() => this.props.onClick({key: "monthDetail", title: "Month Detail"})}
                                     key={child.month}
                                     style={styles.button}>
                                     <View>
@@ -68,11 +73,14 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
+export default connect(
+    state => ({
         timings: state.stopwatchReducer.timings,
-    }
-}
+    }),
 
-
-export default connect(mapStateToProps, {})(Statistic)
+    dispatch => ({
+        onClick: (route) => {
+            dispatch(navPush(route))
+        }
+    })
+)(Statistic)
