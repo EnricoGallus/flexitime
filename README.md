@@ -1,4 +1,4 @@
 # flexitime
 
-time tracking tool using React-Native with Redux
+Time tracking tool using React-Native with Reduxs
 
