@@ -6,21 +6,9 @@ import Stopwatch from './stopwatchWidget'
 class Home extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Stopwatch />
-            </View>
+            <Stopwatch />
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'grey',
-        marginTop: 20,
-    }
-})
 
 export default Home

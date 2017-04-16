@@ -33,7 +33,7 @@ class StopWatch extends Component {
         const elapsedTime = getElapsedTime(baseTime, startedTimerAt, stoppedTimerAt);
         const elapsedPause = getElapsedTime(basePause, startedPauseAt, stoppedPauseAt);
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.container}>
                 <View style={styles.timers}>
                     <View style={styles.stopWatchTimer}>
                         <Text style={styles.stopWatchTimerHeader}>Tagesarbeitszeit</Text>
@@ -78,7 +78,7 @@ class StopWatch extends Component {
                     {
                         <TouchableOpacity
                             disabled={!progressTimer && !progressPause}
-                            style={[styles.stopWatchButton, {backgroundColor: '#AD0500'}]}
+                            style={[styles.stopWatchButton, !progressTimer && !progressPause ? {backgroundColor: 'grey'} : {backgroundColor: '#AD0500'}]}
                             onPress={() => {this.props.stopTimer(elapsedTime, elapsedPause); }}
                             title="Stop"
                             accessibilityLabel="Stop">
@@ -92,9 +92,11 @@ class StopWatch extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+    },
     timers: {
         marginTop: 50,
-        marginBottom: 30,
+        marginBottom: 20,
     },
     stopWatchTimer: {
         justifyContent: 'center',
@@ -120,11 +122,13 @@ const styles = StyleSheet.create({
     },
     stopWatchButtons: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignContent: 'stretch',
         height: 46,
     },
     stopWatchButton: {
         height: 46,
-        width: WIDTH / 2,
+        width: WIDTH / 2.5,
         alignSelf: 'center',
         justifyContent: 'center',
         borderRadius: 4,
