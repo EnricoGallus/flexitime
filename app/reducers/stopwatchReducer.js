@@ -7,6 +7,7 @@ import {
 
 
 const INITIAL_STATE = {
+    updateInterval: 1,
     progressTimer: false,
     progressPause: false,
     baseTime: undefined,

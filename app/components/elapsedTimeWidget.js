@@ -1,26 +1,32 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { secondsToTime, secondsToHours, elapsedTimeOfThisWeek } from '../helper/timeHelper'
+import { secondsToTime, calculateSaldo, elapsedTimeOfThisWeek } from '../helper/timeHelper'
 
 class ElapsedTime extends Component {
     constructor(props) {
         super(props);
-        this.state = {elapsedTime: 0}
+        this.state = {
+            elapsedTime: 0,
+            saldo: calculateSaldo(this.props.weeklyHours, 0)
+        }
     }
 
     componentDidMount() {
-        this.setState({elapsedTime: elapsedTimeOfThisWeek(this.props.timings)});
+        const elapsedTime = elapsedTimeOfThisWeek(this.props.timings);
+        this.setState({elapsedTime: elapsedTime});
+        this.setState({saldo: calculateSaldo(this.props.weeklyHours, elapsedTime)})
     }
 
     render() {
         return (
             <View>
                 <View style={styles.elapsedTimeContainer}>
+                    <Text style={styles.elapsedTimeHeader}>Wochenarbeitszeit</Text>
                     <Text style={styles.elapsedTimeText}>{secondsToTime(this.state.elapsedTime)}</Text>
                 </View>
                 <View style={styles.saldoContainer}>
-                    <Text style={styles.saldoText}>{-this.props.weeklyHours + secondsToHours(this.state.elapsedTime)}</Text>
+                    <Text style={styles.saldoText}>{secondsToTime(this.state.saldo)}</Text>
                 </View>
             </View>
         )
@@ -31,11 +37,16 @@ const styles = StyleSheet.create({
     elapsedTimeContainer: {
         justifyContent: 'center',
         alignSelf: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
     },
     elapsedTimeText: {
         fontSize: 50,
-        color: "#000000"
+        color: "black"
+    },
+    elapsedTimeHeader: {
+        fontSize: 25,
+        color: "black",
+        textAlign: 'center',
     },
     saldoContainer: {
         justifyContent: 'center',
@@ -43,8 +54,8 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     saldoText: {
-        fontSize: 35,
-        color: "#000000"
+        fontSize: 25,
+        color: "black"
     },
 });
 

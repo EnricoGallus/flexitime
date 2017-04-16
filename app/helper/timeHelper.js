@@ -3,16 +3,16 @@ export function getStartAndEndOfWeek(date) {
     // Copy date so don't modify supplied date
     let now = date ? new Date(date) : new Date();
 
-    // set time to some convenient value
-    now.setHours(0,0,0,0);
 
-    // Get the previous Monday
+    // Get the previous Monday from midnight
     let monday = new Date(now);
-    monday.setDate(monday.getDate() - monday.getDay() + 1);
+    monday.setDate(monday.getDate() - monday.getDay() + (monday.getDay() == 0 ? -6 : 1));
+    monday.setHours(0,0,0,0);
 
-    // Get next Sunday
+    // Get next Sunday from 1 second before midnight
     let sunday = new Date(now);
-    sunday.setDate(sunday.getDate() - sunday.getDay() + 7);
+    sunday.setDate(sunday.getDate() - sunday.getDay() + (sunday.getDay() == 0 ? 0 : 7));
+    sunday.setHours(23,59,59,0);
 
     // Return array of date objects
     return {monday, sunday};
@@ -23,8 +23,9 @@ export function elapsedTimeOfThisWeek(timings) {
     let elapsedTime = 0;
 
     timings.map((timing) => {
-        if (timing.savedAt >= startAndEndOfThisWeek.monday.getTime() &&
-            timing.savedAt <= startAndEndOfThisWeek.sunday.getTime())
+        let mondayTime = startAndEndOfThisWeek.monday.getTime();
+        let sundayTime = startAndEndOfThisWeek.sunday.getTime();
+        if (timing.savedAt >= mondayTime && timing.savedAt <= sundayTime)
             elapsedTime += timing.elapsedTime;
     });
 
@@ -40,11 +41,6 @@ export function getElapsedTime(baseTime, startedAt, stoppedAt = new Date().getTi
 }
 
 export function secondsToTime(s) {
-    function pad(n, z) {
-        z = z || 2;
-        return ('00' + n).slice(-z);
-    }
-
     let ms = s % 1000;
     s = (s - ms) / 1000;
     let secs = s % 60;
@@ -52,14 +48,18 @@ export function secondsToTime(s) {
     let mins = s % 60;
     let hrs = (s - mins) / 60;
 
-    return `${pad(hrs)}:${pad(mins)}:${pad(secs)}.${pad(ms, 3)}`;
+    return `${hrs.padLeft(1)}h${mins.padLeft(2)}min`;
 }
 
-export function secondsToHours(s) {
-    let ms = s % 1000;
-    s = (s - ms) / 1000;
-    let secs = s % 60;
-    s = (s - secs) / 60;
-    let mins = s % 60;
-    return (s - mins) / 60;
+Number.prototype.padLeft = function (n, str) {
+    return (this < 0 ? '-' : '') +
+        Array(n-String(Math.abs(this)).length+1)
+            .join(str||'0') +
+        (Math.abs(this));
+}
+
+export function calculateSaldo(weeklyHoursInHours, elapsedTimeInSeconds) {
+    let weeklyHoursInSecondsNegative = weeklyHoursInHours * 3600000 * -1;
+    let result = weeklyHoursInSecondsNegative + elapsedTimeInSeconds;
+    return result;
 }
