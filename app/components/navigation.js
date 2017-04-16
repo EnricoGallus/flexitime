@@ -4,8 +4,10 @@ import { StyleSheet, View, NavigationExperimental } from 'react-native';
 import TabBar from './tabBar'
 
 import HomeScreen from './homeScreen'
+import RecordScreen from './recordScreen'
 import StatisticScreen from './statisticScreen'
 import SettingScreen from './settingScreen'
+import MonthDetailScreen from './monthDetailScreen'
 
 const {
   CardStack: NavigationCardStack,
@@ -25,7 +27,6 @@ class Navigation extends Component {
         return (
             <NavigationHeader
                 {...props}
-
                 onNavigateBack={() => backAction(tabKey)}
                 renderTitleComponent={props => {
                     const title = props.scene.route.title
@@ -41,8 +42,16 @@ class Navigation extends Component {
                 return <HomeScreen />
             }
 
+            case "record": {
+                return <RecordScreen />
+            }
+
             case 'statistic': {
                 return <StatisticScreen />
+            }
+
+            case "monthDetail": {
+                return <MonthDetailScreen />
             }
 
             case 'setting': {
@@ -53,7 +62,6 @@ class Navigation extends Component {
                 return <View style={styles.screen} />
             }
         }
-
     }
 
     render() {
@@ -86,16 +94,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-
     navTitle: {
         color: '#494949'
     },
-
     screen: {
         flex: 1,
         backgroundColor: '#f2e394'
     }
-})
+});
 
 
 export default Navigation

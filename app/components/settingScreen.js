@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 50
     }
-})
+});
 
 const mapStateToProps = (state) => {
     return {
@@ -82,6 +82,6 @@ const mapStateToProps = (state) => {
         hoursPerDay: state.settingReducer.hoursPerDay,
         isGeofencing: state.settingReducer.isGeofencing,
     }
-}
+};
 
 export default connect(mapStateToProps, {...settingActions})(Setting);

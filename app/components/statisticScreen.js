@@ -12,8 +12,10 @@ class Statistic extends Component {
     groupByMonths() {
         const map = new Map();
         this.props.timings.forEach((item) => {
-
-            const key = new Date(item.savedAt).getMonth();
+            const savedAt = new Date(item.savedAt);
+            const month = savedAt.getMonth() + 1;
+            const year = savedAt.getFullYear();
+            const key = month + "_" + year;
             if (!map.has(key)) {
                 map.set(key, [item]);
             } else {
@@ -22,14 +24,15 @@ class Statistic extends Component {
 
         });
 
-        const months = [];
+        const periods = [];
         for (let key of map.keys()) {
+            let period = key.split("_");
             let monthValue = 0;
             map.get(key).map((item) => monthValue += item.elapsedTime);
-            months.push({ month: new Date(2010, key).toLocaleString('en-us', {month:"long"}), monthValue})
+            periods.push({ month: period[0], year: period[1], monthValue})
         }
 
-        return months;
+        return periods;
     }
 
     render() {
@@ -39,11 +42,11 @@ class Statistic extends Component {
                 {   this.monthGroup.map((child) => {
                         return (
                                 <TouchableHighlight
-                                    onPress={() => this.props.onClick({key: "monthDetail", title: "Month Detail"})}
-                                    key={child.month}
+                                    onPress={() => this.props.onClick({key: "monthDetail", title: "Month Detail", month: child.month, year: child.year})}
+                                    key={child.month + "_" + child.year}
                                     style={styles.button}>
                                     <View>
-                                        <Text style={styles.monthText}>{child.month} - {child.monthValue}</Text>
+                                        <Text style={styles.periodText}>{child.month}/{child.year}:     {child.monthValue}</Text>
                                     </View>
                                 </TouchableHighlight>
                         )
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    monthText: {
+    periodText: {
         textAlign: 'center',
         fontSize: 25
     }

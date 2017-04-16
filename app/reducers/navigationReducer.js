@@ -6,6 +6,7 @@ const initialState = {
         index: 0,
         routes: [
             {key: 'Home', icon: 'clock-o'},
+            {key: 'Record', icon: 'calendar'},
             {key: 'Statistic', icon: 'tasks'},
             {key: 'Setting', icon: 'cog'}
         ]
@@ -14,6 +15,11 @@ const initialState = {
     Home: {
         index: 0,
         routes: [{key: 'home', title: 'Home'}]
+    },
+
+    Record: {
+        index: 0,
+        routes: [{key: 'record', title: 'Record'}]
     },
 
     Statistic: {
