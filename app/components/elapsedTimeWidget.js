@@ -6,16 +6,11 @@ import { secondsToTime, calculateSaldo, elapsedTimeOfThisWeek } from '../helper/
 class ElapsedTime extends Component {
     constructor(props) {
         super(props);
+        this.elapsedTime = elapsedTimeOfThisWeek(this.props.timings);
         this.state = {
-            elapsedTime: 0,
-            saldo: calculateSaldo(this.props.weeklyHours, 0)
+            elapsedTime: this.elapsedTime,
+            saldo: calculateSaldo(this.props.weeklyHours, this.elapsedTime)
         }
-    }
-
-    componentDidMount() {
-        const elapsedTime = elapsedTimeOfThisWeek(this.props.timings);
-        this.setState({elapsedTime: elapsedTime});
-        this.setState({saldo: calculateSaldo(this.props.weeklyHours, elapsedTime)})
     }
 
     render() {

@@ -126,14 +126,16 @@ const styles = StyleSheet.create({
         height: 46,
         width: WIDTH / 2,
         alignSelf: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: 'black',
     },
     stopWatchButtonText: {
         fontSize: 20,
         color: "white",
         justifyContent: 'center',
         alignSelf: 'center'
-
     },
 });
 
