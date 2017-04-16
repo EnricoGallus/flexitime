@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, ScrollView, Text, TouchableHighlight } from 'react-native'
+import { StyleSheet, View, ListView } from 'react-native'
+import { MonthYearRow } from './monthYearRow'
 
 class Statistic extends Component {
+    constructor(props) {
+        super(props);
+        this._viewMonthDetail = this._viewMonthDetail.bind(this);
+    }
 
     componentWillMount() {
-        this.monthGroup = this.groupByMonths();
+        const ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 });
+        const dataSource = ds.cloneWithRows(this.groupByMonths());
+        this.setState({ dataSource });
     }
 
     groupByMonths() {
@@ -34,24 +41,25 @@ class Statistic extends Component {
         return periods;
     }
 
+    _viewMonthDetail(month, year) {
+        this.props.navigator.push({
+            screen: 'flexitime.monthdetail',
+            passProps: {
+                month,
+                year
+            },
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <ScrollView>
-                {   this.monthGroup.map((child) => {
-                        return (
-                                <TouchableHighlight
-                                    onPress={() => this.props.onClick({key: "monthDetail", title: "Month Detail", month: child.month, year: child.year})}
-                                    key={child.month + "_" + child.year}
-                                    style={styles.button}>
-                                    <View>
-                                        <Text style={styles.periodText}>{child.month}/{child.year}:     {child.monthValue}</Text>
-                                    </View>
-                                </TouchableHighlight>
-                        )
-                    })
-                }
-                </ScrollView>
+                <ListView
+                    enableEmptySections
+                    dataSource={this.state.dataSource}
+                    renderRow={rowData => <MonthYearRow info={rowData} viewMonthDetail={this._viewMonthDetail} />}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+                />
             </View>
         )
     }
@@ -63,26 +71,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         marginTop: 20
     },
-    button: {
-        height: 100,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
+    separator: {
+        marginTop: 10,
+        backgroundColor: '#8E8E8E'
     },
-    periodText: {
-        textAlign: 'center',
-        fontSize: 25
-    }
-})
+});
 
-export default connect(
-    state => ({
+
+function mapStateToProps(state) {
+    return {
         timings: state.stopwatchReducer.timings,
-    }),
+    };
+}
 
-    dispatch => ({
-        onClick: (route) => {
-            dispatch(navPush(route))
-        }
-    })
-)(Statistic)
+export default connect(mapStateToProps)(Statistic)
