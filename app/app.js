@@ -1,40 +1,60 @@
 import React, {Component} from 'react'
-import { View, Text } from 'react-native'
+import { Navigation } from 'react-native-navigation'
 
-import { Provider } from 'react-redux'
-import { AsyncStorage } from 'react-native'
-import { persistStore } from 'redux-persist'
+import { storeLoaded } from './store/storeLoader'
+import { iconsMap } from './store/iconLoader'
 
-import configureStore from './store/configureStore'
-import NavigationContainer from './containers/navigationContainer'
-
-const store = configureStore()
+const navigatorStyle = {
+    navBarTranslucent: true,
+    navBarTextColor: 'white',
+    navBarButtonColor: 'white',
+    statusBarTextColorScheme: 'light',
+    drawUnderTabBar: false
+};
 
 class App extends Component {
     constructor() {
-        super()
-        this.state = { isRehydrated: false }
+        super();
+        storeLoaded.then(() => this.startApp());
     }
 
-    componentWillMount(){
-        persistStore(
-            store,
-            {storage: AsyncStorage, blacklist: ['navigationReducer']},
-            () => this.setState({isRehydrated: true}))
-    }
-
-    render() {
-        if(!this.state.isRehydrated){
-            return (
-                <View>
-                <Text>Loading...</Text>
-                </View>)
-        }
-        return (
-            <Provider store={store}>
-                <NavigationContainer />
-            </Provider>
-        )
+    startApp() {
+        Navigation.startTabBasedApp({
+            tabs: [
+                {
+                    label: 'Home',
+                    screen: 'flexitime.home', // this is a registered name for a screen
+                    title: 'Home',
+                    icon: iconsMap['ios-time-outline'],
+                    selectedIcon: iconsMap['ios-time'],
+                    navigatorStyle,
+                },
+                {
+                    label: 'Record',
+                    screen: 'flexitime.record',
+                    title: 'Record',
+                    icon: iconsMap['ios-calendar-outline'],
+                    selectedIcon: iconsMap['ios-calendar'],
+                    navigatorStyle,
+                },
+                {
+                    label: 'Statistic',
+                    screen: 'flexitime.statistic',
+                    title: 'Statistic',
+                    icon: iconsMap['ios-stats-outline'],
+                    selectedIcon: iconsMap['ios-stats'],
+                    navigatorStyle,
+                },
+                {
+                    label: 'Setting',
+                    screen: 'flexitime.setting',
+                    title: 'Setting',
+                    icon: iconsMap['ios-settings-outline'],
+                    selectedIcon: iconsMap['ios-settings'],
+                    navigatorStyle,
+                }
+            ]
+        });
     }
 }
 

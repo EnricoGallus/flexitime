@@ -1,4 +1,2 @@
-import { AppRegistry } from 'react-native';
 import App from './app/app'
-
-AppRegistry.registerComponent('flexitime', () => App);
+const app = new App();

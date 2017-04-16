@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, ScrollView, Text, TouchableHighlight } from 'react-native'
-import { navPush } from '../actions/navActions'
 
 class Statistic extends Component {
 

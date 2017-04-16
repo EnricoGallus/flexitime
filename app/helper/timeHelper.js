@@ -1,4 +1,4 @@
-export function getStartAndEndOfWeek(date) {
+function getStartAndEndOfWeek(date) {
     // If no date object supplied, use current date
     // Copy date so don't modify supplied date
     let now = date ? new Date(date) : new Date();
@@ -58,8 +58,10 @@ Number.prototype.padLeft = function (n, str) {
         (Math.abs(this));
 }
 
-export function calculateSaldo(weeklyHoursInHours, elapsedTimeInSeconds) {
+function calculateSaldo(weeklyHoursInHours, elapsedTimeInSeconds) {
     let weeklyHoursInSecondsNegative = weeklyHoursInHours * 3600000 * -1;
     let result = weeklyHoursInSecondsNegative + elapsedTimeInSeconds;
     return result;
 }
+
+export { getStartAndEndOfWeek, calculateSaldo }
